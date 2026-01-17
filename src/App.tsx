@@ -1,16 +1,28 @@
-import { Container, Box, Typography } from '@mui/material'
+import { Alert, Box, CircularProgress } from "@mui/material";
+import Layout from "./components/Layout/Layout";
+import SearchForm from "./components/SearchForm/SearchForm";
+import { useFlightsSearch } from "./hooks/useFlightsSearch";
+import { FlightsTable } from "./components/FlightsTable/FlightsTable";
 
 function App() {
+  const { flights, loading, error, searchFlights } = useFlightsSearch();
+
   return (
-    <Container maxWidth="lg">
-      <Box py={4}>
-        <Typography variant="h4" fontWeight={600}>
-          Flight Search
-        </Typography>
+    <Layout>
+      <SearchForm onSearch={searchFlights} />
+      <Box mt={4}>
+        {loading && <CircularProgress />}
+
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
+
+        {!loading && flights.length > 0 && <FlightsTable flights={flights} />}
       </Box>
-    </Container>
-  )
+    </Layout>
+  );
 }
 
-
-export default App
+export default App;
