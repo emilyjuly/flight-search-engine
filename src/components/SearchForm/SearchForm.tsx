@@ -129,7 +129,7 @@ function SearchForm({ onSearch, loading }: SearchFormProps) {
           />
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 2 }}>
           <TextField
             label="Departure"
             type="date"
@@ -145,7 +145,7 @@ function SearchForm({ onSearch, loading }: SearchFormProps) {
           />
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 2 }}>
           <TextField
             label="Return"
             type="date"
@@ -158,7 +158,7 @@ function SearchForm({ onSearch, loading }: SearchFormProps) {
           />
         </Grid>
         <Grid
-          size={{ xs: 12, sm: 6, md: 3 }}
+          size={{ xs: 12, sm: 6, md: 2 }}
           display="flex"
           alignItems="flex-end"
         >

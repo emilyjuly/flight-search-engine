@@ -59,7 +59,7 @@ function App() {
               <PriceChart data={chartData} />
             </Grid>
 
-            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+            <Grid size={{ xs: 12, sm: 6, md: 8 }}>
               <FlightsTable flights={filteredFlights} />
             </Grid>
           </Grid>
