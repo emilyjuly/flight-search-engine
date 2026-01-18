@@ -20,7 +20,7 @@ export function PriceChart({ data }: PriceChartProps) {
   }
 
   return (
-    <Paper sx={{ p: 3, mb: 3 }}>
+    <Paper sx={{ p: 3, mb: 3, mt: 3 }}>
       <Typography variant="subtitle1" fontWeight={600} mb={2}>
         Price trends
       </Typography>

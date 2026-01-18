@@ -35,16 +35,16 @@ function App() {
 
         {!loading && flights.length > 0 && (
           <Grid container spacing={3}>
-            <Grid item xs={12} md={3}>
+            <Grid size={4}>
               <FiltersPanel
                 filters={filters}
                 airlines={airlines}
                 onChange={setFilters}
               />
+              <PriceChart data={chartData} />
             </Grid>
 
-            <Grid item xs={12} md={10}>
-              <PriceChart data={chartData} />
+            <Grid size={8}>
               <FlightsTable flights={filteredFlights} />
             </Grid>
           </Grid>

@@ -1,29 +1,35 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { getAmadeusToken } from "./getToken.ts";
 
 const AMADEUS_BASE_URL = "https://test.api.amadeus.com/v2";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const { origin, destination, departureDate } = req.query;
+  const origin = Array.isArray(req.query.origin)
+    ? req.query.origin[0]
+    : req.query.origin;
+
+  const destination = Array.isArray(req.query.destination)
+    ? req.query.destination[0]
+    : req.query.destination;
+
+  const departureDate = Array.isArray(req.query.departureDate)
+    ? req.query.departureDate[0]
+    : req.query.departureDate;
 
   if (!origin || !destination || !departureDate) {
-    return res.status(400).json({ error: "Missing parameters" });
+    return res.status(400).json({
+      error: "Missing parameters",
+      received: { origin, destination, departureDate },
+    });
   }
 
   try {
-    const tokenResponse = await fetch(
-      `${
-        process.env.VERCEL_URL
-          ? `https://${process.env.VERCEL_URL}`
-          : "http://localhost:3000"
-      }/api/amadeus/token`,
-    );
-
-    const tokenData = await tokenResponse.json();
+    const tokenData = await getAmadeusToken();
 
     const query = new URLSearchParams({
-      originLocationCode: origin as string,
-      destinationLocationCode: destination as string,
-      departureDate: departureDate as string,
+      originLocationCode: origin,
+      destinationLocationCode: destination,
+      departureDate,
       adults: "1",
     });
 
@@ -36,9 +42,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     );
 
-    const data = await response.json();
-    res.status(200).json(data);
-  } catch (error) {
-    res.status(500).json({ error: "Failed to fetch flight offers" });
+    const text = await response.text();
+
+    if (!response.ok) {
+      return res.status(response.status).json({
+        error: "Amadeus API error",
+        raw: text,
+      });
+    }
+
+    return res.status(200).json(JSON.parse(text));
+  } catch (error: any) {
+    console.error("FLIGHT OFFERS ERROR:", error);
+    return res.status(500).json({
+      error: "Failed to fetch flight offers",
+      details: error.message,
+    });
   }
 }

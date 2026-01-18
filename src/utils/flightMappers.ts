@@ -1,4 +1,4 @@
-import { Flight } from "../types/flight";
+import type { Flight } from "../types/flight";
 
 export function mapAmadeusToFlights(apiResponse: any): Flight[] {
   return apiResponse.data.map((offer: any, index: number) => {

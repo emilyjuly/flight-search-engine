@@ -1,7 +1,6 @@
 import { Box, Button, Grid, TextField } from "@mui/material";
 import { useState } from "react";
 import { Search } from "@mui/icons-material";
-import { fetchFlights } from "../../services/flightsApi";
 
 export type FlightSearchParams = {
   origin: string;
@@ -33,17 +32,13 @@ function SearchForm({ onSearch }: SearchFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await fetchFlights({
-      origin: params.origin,
-      destination: params.destination,
-      departureDate: params.departureDate,
-    });
+    onSearch(params);
   };
 
   return (
     <Box component="form" onSubmit={handleSubmit}>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={3}>
+        <Grid size={3}>
           <TextField
             label="Origin"
             fullWidth
@@ -53,7 +48,7 @@ function SearchForm({ onSearch }: SearchFormProps) {
           />
         </Grid>
 
-        <Grid item xs={12} md={3}>
+        <Grid size={3}>
           <TextField
             label="Destination"
             fullWidth
@@ -63,7 +58,7 @@ function SearchForm({ onSearch }: SearchFormProps) {
           />
         </Grid>
 
-        <Grid item xs={12} md={3}>
+        <Grid size={2}>
           <TextField
             label="Departure"
             type="date"
@@ -75,7 +70,7 @@ function SearchForm({ onSearch }: SearchFormProps) {
           />
         </Grid>
 
-        <Grid item xs={12} md={2}>
+        <Grid size={2}>
           <TextField
             label="Return"
             type="date"
@@ -86,7 +81,7 @@ function SearchForm({ onSearch }: SearchFormProps) {
           />
         </Grid>
 
-        <Grid item xs={12} md={1} display="flex" alignItems="flex-end">
+        <Grid size={2} display="flex" alignItems="flex-end">
           <Button
             sx={{ padding: 2 }}
             type="submit"
