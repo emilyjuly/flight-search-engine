@@ -13,11 +13,16 @@ export async function fetchFlights(params: {
     `/api/amadeus/flight-offers?${query.toString()}`,
   );
   
-  console.log(response);
-
   if (!response.ok) {
     throw new Error("Failed to fetch flights");
   }
 
   return response.json();
 }
+
+export async function fetchLocations(keyword: string) {
+  const res = await fetch(`/api/amadeus/locations?keyword=${keyword}`);
+  if (!res.ok) throw new Error("Failed to fetch locations");
+  return res.json();
+}
+

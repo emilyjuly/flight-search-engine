@@ -1,4 +1,4 @@
-import { Alert, Box, CircularProgress, Grid } from "@mui/material";
+import { Alert, Box, Grid } from "@mui/material";
 import Layout from "./components/Layout/Layout";
 import SearchForm from "./components/SearchForm/SearchForm";
 import { useFlightsSearch } from "./hooks/useFlightsSearch";
@@ -9,6 +9,10 @@ import { useFlightFilters } from "./hooks/useFlightFilters";
 import { FiltersPanel } from "./components/FiltersPanel/FilterPanel";
 import { PriceChart } from "./components/PriceChart/PriceChart";
 import { mapFlightsToPriceChart } from "./utils/priceChartMapper";
+import EmptyState from "./components/EmptyState/EmptyState";
+import PriceChartSkeleton from "./components/PriceChart/PriceChartSkeleton";
+import { FlightsTableSkeleton } from "./components/FlightsTable/FlightsTableSkeleton";
+import FilterPanelSkeleton from "./components/FiltersPanel/FilterPanelSkeleton";
 
 function App() {
   const { flights, loading, error, searchFlights } = useFlightsSearch();
@@ -27,15 +31,26 @@ function App() {
 
   return (
     <Layout>
-      <SearchForm onSearch={searchFlights} />
+      <SearchForm onSearch={searchFlights} loading={loading} />
       <Box mt={4}>
-        {loading && <CircularProgress />}
+        {loading && (
+          <Grid container spacing={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+              <FilterPanelSkeleton />
+              <PriceChartSkeleton />
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 6, md: 8 }}>
+              <FlightsTableSkeleton />
+            </Grid>
+          </Grid>
+        )}
 
         {error && <Alert severity="error">{error}</Alert>}
 
         {!loading && flights.length > 0 && (
           <Grid container spacing={3}>
-            <Grid size={4}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
               <FiltersPanel
                 filters={filters}
                 airlines={airlines}
@@ -44,11 +59,13 @@ function App() {
               <PriceChart data={chartData} />
             </Grid>
 
-            <Grid size={8}>
+            <Grid size={{ xs: 12, sm: 6, md: 4 }}>
               <FlightsTable flights={filteredFlights} />
             </Grid>
           </Grid>
         )}
+
+        {!loading && flights.length === 0 && <EmptyState />}
       </Box>
     </Layout>
   );

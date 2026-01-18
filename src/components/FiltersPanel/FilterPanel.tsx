@@ -30,7 +30,6 @@ export function FiltersPanel({
       </Typography>
 
       <Stack spacing={3}>
-        {/* Price */}
         <Box>
           <Typography gutterBottom>Max price: ${filters.maxPrice}</Typography>
           <Slider
@@ -46,7 +45,6 @@ export function FiltersPanel({
           />
         </Box>
 
-        {/* Airlines */}
         <FormControl fullWidth>
           <InputLabel>Airlines</InputLabel>
           <Select
@@ -69,7 +67,6 @@ export function FiltersPanel({
           </Select>
         </FormControl>
 
-        {/* Stops */}
         <FormControl fullWidth>
           <InputLabel>Stops</InputLabel>
           <Select

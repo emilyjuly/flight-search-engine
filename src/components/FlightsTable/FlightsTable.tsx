@@ -5,8 +5,10 @@ import {
   TableCell,
   TableBody,
   Paper,
+  TableContainer,
 } from "@mui/material";
 import type { Flight } from "../../types/flight";
+import moment from "moment";
 
 type FlightsTableProps = {
   flights: Flight[];
@@ -15,31 +17,43 @@ type FlightsTableProps = {
 export function FlightsTable({ flights }: FlightsTableProps) {
   return (
     <Paper>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Airline</TableCell>
-            <TableCell>Departure</TableCell>
-            <TableCell>Arrival</TableCell>
-            <TableCell>Stops</TableCell>
-            <TableCell>Duration</TableCell>
-            <TableCell align="right">Price</TableCell>
-          </TableRow>
-        </TableHead>
-
-        <TableBody>
-          {flights.map((flight) => (
-            <TableRow key={flight.id}>
-              <TableCell>{flight.airline}</TableCell>
-              <TableCell>{flight.departureTime}</TableCell>
-              <TableCell>{flight.arrivalTime}</TableCell>
-              <TableCell>{flight.stops}</TableCell>
-              <TableCell>{flight.duration}</TableCell>
-              <TableCell align="right">${flight.price}</TableCell>
+      <TableContainer
+        component={Paper}
+        sx={{
+          overflowX: "auto",
+          width: "100%",
+        }}
+      >
+        <Table stickyHeader>
+          <TableHead>
+            <TableRow>
+              <TableCell>Airline</TableCell>
+              <TableCell>Departure</TableCell>
+              <TableCell>Arrival</TableCell>
+              <TableCell>Stops</TableCell>
+              <TableCell>Duration</TableCell>
+              <TableCell align="right">Price</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+          </TableHead>
+
+          <TableBody>
+            {flights.map((flight) => (
+              <TableRow key={flight.id}>
+                <TableCell>{flight.airline}</TableCell>
+                <TableCell>
+                  {moment(flight.departureTime).format("YYYY-MM-DD HH:mm")}
+                </TableCell>
+                <TableCell>
+                  {moment(flight.arrivalTime).format("YYYY-MM-DD HH:mm")}
+                </TableCell>
+                <TableCell>{flight.stops}</TableCell>
+                <TableCell>{flight.duration}</TableCell>
+                <TableCell align="right">${flight.price}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </Paper>
   );
 }
