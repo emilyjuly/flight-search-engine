@@ -1,6 +1,7 @@
 import { Box, Button, Grid, TextField } from "@mui/material";
 import { useState } from "react";
 import { Search } from "@mui/icons-material";
+import { fetchFlights } from "../../services/flightsApi";
 
 export type FlightSearchParams = {
   origin: string;
@@ -30,9 +31,13 @@ function SearchForm({ onSearch }: SearchFormProps) {
       }));
     };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSearch(params);
+    await fetchFlights({
+      origin: params.origin,
+      destination: params.destination,
+      departureDate: params.departureDate,
+    });
   };
 
   return (
@@ -82,7 +87,12 @@ function SearchForm({ onSearch }: SearchFormProps) {
         </Grid>
 
         <Grid item xs={12} md={1} display="flex" alignItems="flex-end">
-          <Button sx={{ padding: 2 }} type="submit" variant="contained" fullWidth>
+          <Button
+            sx={{ padding: 2 }}
+            type="submit"
+            variant="contained"
+            fullWidth
+          >
             <Search />
             Search
           </Button>
