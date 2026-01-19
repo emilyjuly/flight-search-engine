@@ -1,5 +1,5 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getAmadeusToken } from "./getToken.ts";
+import { getAmadeusToken } from "../../lib/getToken.ts";
 
 const AMADEUS_BASE_URL = "https://test.api.amadeus.com/v1";
 
