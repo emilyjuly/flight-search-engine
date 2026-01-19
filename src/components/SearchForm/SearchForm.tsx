@@ -150,11 +150,12 @@ function SearchForm({ onSearch, loading }: SearchFormProps) {
             label="Return"
             type="date"
             fullWidth
+            title={params.departureDate === "" ? "Return date cannot be before departure date" : "Return Date"}
             InputLabelProps={{ shrink: true }}
             value={params.returnDate}
             onChange={handleChange("returnDate")}
-            disabled={loading}
-            inputProps={{ min: today }}
+            disabled={loading || params.departureDate === ""}
+            inputProps={{ min: params.departureDate }}
           />
         </Grid>
         <Grid
