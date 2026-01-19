@@ -1,9 +1,8 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getAmadeusToken } from "../../lib/getToken";
+import { getAmadeusToken } from "../../lib/getToken.js";
 
 const AMADEUS_BASE_URL = "https://test.api.amadeus.com/v2";
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req, res) {
   const origin = Array.isArray(req.query.origin)
     ? req.query.origin[0]
     : req.query.origin;
@@ -52,7 +51,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     return res.status(200).json(JSON.parse(text));
-  } catch (error: any) {
+  } catch (error) {
     console.error("FLIGHT OFFERS ERROR:", error);
     return res.status(500).json({
       error: "Failed to fetch flight offers",

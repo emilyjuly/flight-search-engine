@@ -1,9 +1,8 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getAmadeusToken } from "../../lib/getToken";
+import { getAmadeusToken } from "../../lib/getToken.js";
 
 const AMADEUS_BASE_URL = "https://test.api.amadeus.com/v1";
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req, res) {
   const keyword = Array.isArray(req.query.keyword)
     ? req.query.keyword[0]
     : req.query.keyword;
